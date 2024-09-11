@@ -1,0 +1,38 @@
+<!doctype html> 
+<html lang="en"> 
+    <head> 
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./css/styles.css" />
+        <title>Secret Word Game</title>
+    </head>
+    <body>
+
+        <main>
+            <h1>Secret Word Game!</h1>
+            
+            <div id="game-container">
+                <input class="word-letter" maxlength="1" value="?" readonly>
+                <input class="word-letter" maxlength="1" value="?" readonly>
+                <input class="word-letter" maxlength="1" value="?" readonly>
+                <input class="word-letter" maxlength="1" value="?" readonly>
+                <input class="word-letter" maxlength="1" value="?" readonly>
+            </div>
+            <div class="description">
+                <p>Secret Word Game!</p>
+            </div>
+            <div class="game-overview">
+                <h2>Game Overview</h2>
+                <ul>
+                    <li>Try to guess the secret word</li>
+                    <li>Take turns</li>
+                    <ul>
+                        <li>Reduce Possible letterset of all letters</li>
+                        <li>Reduce Possible letterset of specific letter</li>
+                        <li>Guess the word</li>
+                    </ul>
+                </ul>
+                <span class="tagline">Can you guess the <strong>SECRET WORD?</strong></span>
+            </div>
+        </main>
+    </body>
+</html>
