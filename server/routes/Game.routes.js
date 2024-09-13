@@ -6,6 +6,28 @@ router.get('/current', function(req, res){
     res.send(req.app.locals.wordGame.currentWord);
 });
 
+router.get('/guessletters', function(req, res){
+    //console.log(req.app.locals.wordGame.currentWord)
+    res.send(req.app.locals.wordGame.guessLetters);
+});
+
+router.post('/guess', function(req, res){
+    console.log(req.body)
+    res.send({data:'Test!'});
+}); 
+
+router.post('/removeFromAll', function(req, res){
+    console.log(req.body)
+    res.send({data:'Test!'});
+    req.app.locals.wordGame.removeFromAll()
+}); 
+
+router.post('/removeFromOne', function(req, res){
+    console.log(req.body)
+    req.app.locals.wordGame.removeFromOne(req.body.index)
+    res.send({data:'Test!'});
+}); 
+
 router.post('/guess', function(req, res){
     console.log(req.body)
     res.send({data:'Test!'});
@@ -13,7 +35,7 @@ router.post('/guess', function(req, res){
 
 router.post('/reset', function(req, res){
     const game = req.app.locals.wordGame
-    game.currentWord = game.getRandomWordExclude(game.currentWord)
+    game.init()
     res.send({data:game.currentWord})
 }); 
 

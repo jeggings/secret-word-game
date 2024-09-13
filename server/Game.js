@@ -1,5 +1,7 @@
 const fs = require('node:fs')
 
+const NUM_HERRINGS = 4
+
 // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 const shuffle = (array) =>{
     let currentIndex = array.length;
@@ -47,18 +49,42 @@ module.exports = class SecretWordGame {
         const data = fs.readFileSync(`${__dirname}/data/wordlist.txt`, 'utf8')
         this.words = data.replace(/(\r\n|\n|\r)/gm, "").trim().split(',').filter(x=>x!='')
 
+        this.init()
+
+        // Print Game state
+        // console.log(this.currentWord)
+        // console.log(this.guessLetters)
+    }
+
+    init(){
         this.currentWord = this.getRandomWord()
         for (let i in this.currentWord){
             this.guessLetters[i] = []
             for (let j = 0; j < 3; j++){
-                this.guessLetters[i] = getRandomLetters(5,[this.currentWord[i]])
+                this.guessLetters[i] = getRandomLetters(NUM_HERRINGS,[this.currentWord[i]])
             }
             this.guessLetters[i].push(this.currentWord[i])
             shuffle(this.guessLetters[i])
         }
+    }
 
-        // console.log(this.guessLetters)
-        
+    removeFromOne(index){
+        this.removeRandomWrong(index)
+    }
+
+    removeFromAll(){
+        for (let i in this.currentWord){
+            this.removeRandomWrong(i)
+        }
+    }
+
+    removeRandomWrong(charIndex){
+        for (let i in this.guessLetters[charIndex]){
+            if (this.guessLetters[charIndex][i] !== this.currentWord[charIndex]){
+                this.guessLetters[charIndex].splice(i,1)
+                return
+            }
+        }
     }
 
     getRandomWord(){
