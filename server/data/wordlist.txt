@@ -2,4 +2,7 @@ hello,
 words,
 cable,
 beast,
-sweat 
+sweat,
+hotel,
+blast,
+feast
