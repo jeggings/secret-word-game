@@ -13,7 +13,7 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
-app.use('/game',require('./routes/GameRoutes.js'))
+app.use('/game',require('./routes/Game.routes.js'))
 
 
 app.listen(PORT, () => {
