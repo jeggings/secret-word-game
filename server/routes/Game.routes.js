@@ -7,30 +7,23 @@ router.get('/current', function(req, res){
 });
 
 router.get('/guessletters', function(req, res){
-    //console.log(req.app.locals.wordGame.currentWord)
     res.send(req.app.locals.wordGame.guessLetters);
 });
 
-router.post('/guess', function(req, res){
-    console.log(req.body)
-    res.send({data:'Test!'});
-}); 
-
 router.post('/removeFromAll', function(req, res){
-    console.log(req.body)
-    res.send({data:'Test!'});
     req.app.locals.wordGame.removeFromAll()
+    res.send(req.app.locals.wordGame.guessLetters);
 }); 
 
 router.post('/removeFromOne', function(req, res){
     console.log(req.body)
     req.app.locals.wordGame.removeFromOne(req.body.index)
-    res.send({data:'Test!'});
+    res.send(req.app.locals.wordGame.guessLetters);
 }); 
 
 router.post('/guess', function(req, res){
     console.log(req.body)
-    res.send({data:'Test!'});
+    res.send(req.app.locals.wordGame.guess(req.body.guess));
 }); 
 
 router.post('/reset', function(req, res){
