@@ -9,9 +9,12 @@ app.use(express.json())
 const SecretWordGame = require('./Game.js')
 app.locals.wordGame = new SecretWordGame()
 
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/index.html');
-});
+const path = require('path');
+
+
+app.get('/play', function(req, res){
+    res.sendFile(path.resolve(__dirname, '../client', 'play.html'));
+})
 
 app.use('/game',require('./routes/Game.routes.js'))
 
