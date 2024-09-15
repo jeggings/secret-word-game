@@ -26,6 +26,9 @@ app.use('/game',require('./routes/Game.routes.js'))
 io.on('connection', (socket) => {
     console.log('a user connected')
     socket.emit('hello', 'world')
+    socket.on('test', () => {
+        console.log('test worked')
+      })
     socket.on('disconnect', () => {
       console.log('user disconnected')
     })

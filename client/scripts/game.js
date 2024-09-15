@@ -4,4 +4,10 @@ const sendReset = async ()=>{
     console.log(data)
 }
 
+export const test = async (socket)=>{
+    console.log('Its working!')
+    socket.emit('test','thing')
+}
+
 sendReset()
+
