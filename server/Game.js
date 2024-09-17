@@ -45,6 +45,7 @@ module.exports = class SecretWordGame {
     constructor(){
         this.words = []
         this.guessLetters = []
+        this.sockets = []
 
         const data = fs.readFileSync(`${__dirname}/data/wordlist.txt`, 'utf8')
         this.words = data.replace(/(\r\n|\n|\r)/gm, "").trim().split(',').filter(x=>x!='')
@@ -101,9 +102,30 @@ module.exports = class SecretWordGame {
         return this.words.filter(x=>x!=excludeWord)[randomIndex]
     }
 
+    getGameState(){
+        return {'letters':this.guessLetters}
+    }
+
     guess(guessWord){
         return guessWord == this.currentWord
     }
 
+    addSocket(socket){
+        this.sockets.push(socket)
+    }
+
+    removeSocket(socket){
+        const socketIndex = this.sockets.findIndex((x=>x==socket))
+        if (socketIndex >= 0)
+            this.sockets.splice(socketIndex,1)
+    }
+
+    sendGameState(socket){
+        socket?.emit('GameState',this.getGameState())
+    }
+
+    broadCastGameState(){
+        this.sockets.forEach((socket)=>{this.sendGameState(socket)})
+    }
 }
 

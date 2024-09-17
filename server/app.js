@@ -24,13 +24,35 @@ app.get('/play', function(req, res){
 app.use('/game',require('./routes/Game.routes.js'))
 
 io.on('connection', (socket) => {
+    
     console.log('a user connected')
     socket.emit('hello', 'world')
-    socket.on('test', () => {
-        console.log('test worked')
+    app.locals.wordGame.addSocket(socket)
+    app.locals.wordGame.sendGameState(socket)
+
+    socket.on('getGameState', () => {
+        app.locals.wordGame.broadCastGameState()
       })
+      socket.on('getNewWord', () => {
+        app.locals.wordGame.init()
+        app.locals.wordGame.broadCastGameState()
+      })
+      
+      socket.on('removeSingle',  (msg) => {
+        app.locals.wordGame.removeRandomWrong(msg.index)
+        app.locals.wordGame.broadCastGameState()
+        }
+    )
+     
+    socket.on('removeFromAll',  () => {
+        app.locals.wordGame.removeFromAll()
+        app.locals.wordGame.broadCastGameState()
+        }
+    )
+
     socket.on('disconnect', () => {
-      console.log('user disconnected')
+        console.log('user disconnected')
+        app.locals.wordGame.removeSocket(socket)
     })
   })
 

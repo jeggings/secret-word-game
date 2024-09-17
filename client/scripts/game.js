@@ -1,13 +1,12 @@
-const sendReset = async ()=>{
-    const res = await fetch('game/reset', {method: "POST"})
-    const data = await res.json()
-    console.log(data)
+
+export const getNewWord = async (socket)=>{
+    socket.emit('getNewWord')
 }
 
-export const test = async (socket)=>{
-    console.log('Its working!')
-    socket.emit('test','thing')
+export const removeSingle = async (socket,charIndex)=>{
+    socket.emit('removeSingle',{index:charIndex})
 }
 
-sendReset()
-
+export const removeFromAll = async (socket,charIndex)=>{
+    socket.emit('removeFromAll',{index:charIndex})
+}

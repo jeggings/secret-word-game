@@ -5,4 +5,5 @@ beast,
 sweat,
 hotel,
 blast,
-feast
+feast,
+table
