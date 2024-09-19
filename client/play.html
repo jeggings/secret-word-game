@@ -23,9 +23,9 @@
             document.querySelector("#removeFromAll").addEventListener("click", ()=>{removeFromAll(socket)})
 
             socket.on('GameState', function(msg) {
-
-                console.log(`GAMESTATE :`)
-                msg.letters.forEach(letters=>console.log(letters))
+                for (let i in msg.letters){
+                    document.querySelector(`#guessLetter${Number(i)+1}`).innerHTML=msg.letters[i]
+                }
             })
             
         </script>
@@ -42,6 +42,13 @@
                 <input class="word-letter" maxlength="1" value="?">
                 <input class="word-letter" maxlength="1" value="?">
                 <input class="word-letter" maxlength="1" value="?">
+                <br>
+                <span class="guessLetter" id="guessLetter1"></span>
+                <span class="guessLetter" id="guessLetter2"></span>
+                <span class="guessLetter" id="guessLetter3"></span>
+                <span class="guessLetter" id="guessLetter4"></span>
+                <span class="guessLetter" id="guessLetter5"></span>
+
                 <br><button id ="removeFrom1">Remove Wrong letter 1</button>
                 <br><button id ="removeFrom2">Remove Wrong letter 2</button>
                 <br><button id ="removeFrom3">Remove Wrong letter 3</button>
