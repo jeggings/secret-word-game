@@ -41,10 +41,15 @@ const getRandomLetters=(numLetters=1, excludeList=[])=>{
     return returnLetters
 }
 
+const getRandomArrayElement = (arr)=>{
+    return arr[Math.floor((Math.random()*arr.length))]
+}
+
 module.exports = class SecretWordGame {
     constructor(){
         this.words = []
         this.guessLetters = []
+        this.removedLetters = []
         this.sockets = []
 
         const data = fs.readFileSync(`${__dirname}/data/wordlist.txt`, 'utf8')
@@ -58,7 +63,8 @@ module.exports = class SecretWordGame {
     }
 
     init(){
-        this.currentWord = this.getRandomWord()
+        this.currentWord = this.getRandomWordExclude(this.currentWord)
+        console.log(`Current Word : ${this.currentWord}`)
         for (let i in this.currentWord){
             this.guessLetters[i] = []
             for (let j = 0; j < 3; j++){
@@ -66,7 +72,9 @@ module.exports = class SecretWordGame {
             }
             this.guessLetters[i].push(this.currentWord[i])
             shuffle(this.guessLetters[i])
+            this.removedLetters[i]=[]
         }
+        
     }
 
     removeFromOne(index){
@@ -80,30 +88,31 @@ module.exports = class SecretWordGame {
     }
 
     removeRandomWrong(charIndex){
-        for (let i in this.guessLetters[charIndex]){
-            if (this.guessLetters[charIndex][i] !== this.currentWord[charIndex]){
-                this.guessLetters[charIndex].splice(i,1)
-                return
-            }
+        const wrongLetters = this.guessLetters[charIndex].filter((potentialLetter)=>{
+            return (
+                potentialLetter !== this.currentWord[charIndex] && 
+                    !this.removedLetters[charIndex].find(x=>x==potentialLetter))
+        })
+
+        if(wrongLetters.length > 0){
+            this.removedLetters[charIndex].push(getRandomArrayElement(wrongLetters))
         }
+
     }
 
     getRandomWord(){
-        const randomIndex = Math.floor((Math.random()*this.words.length))
-        return this.words[randomIndex]
+        return getRandomArrayElement(this.words)
     }
 
     getRandomWordExclude (excludeWord){
-        let wordCount = this.words.length
-        if (this.words.find(x=>x==excludeWord)){
-            wordCount--
-        }
-        const randomIndex = Math.floor((Math.random()*wordCount))
-        return this.words.filter(x=>x!=excludeWord)[randomIndex]
+        return getRandomArrayElement(this.words.filter(x=>x!=excludeWord))
     }
 
     getGameState(){
-        return {'letters':this.guessLetters}
+        return {
+            'letters':this.guessLetters,
+            'removed':this.removedLetters
+        }
     }
 
     guess(guessWord){

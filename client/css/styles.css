@@ -36,14 +36,19 @@ a {
     margin-right: auto;
 }
 
-.word-letter{
+.word-input{
     text-align: center;
-    width: 40px;
+    width: 5em;
     height: 40px;
     font-size: 40px;
-    margin-left: 1rem;
 }
 
 .guessLetter{
     margin-left: 1rem;
+    font-size: 30px;
+}
+
+.removedLetter{
+    color:red;
+    text-decoration: line-through;
 }

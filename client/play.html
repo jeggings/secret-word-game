@@ -23,9 +23,24 @@
             document.querySelector("#removeFromAll").addEventListener("click", ()=>{removeFromAll(socket)})
 
             socket.on('GameState', function(msg) {
-                for (let i in msg.letters){
-                    document.querySelector(`#guessLetter${Number(i)+1}`).innerHTML=msg.letters[i]
+                for (let groupIndex in msg.letters){
+                    let html = ""
+                    for (let letterIndex in msg.letters[groupIndex]){
+                        const letter =  msg.letters[groupIndex][letterIndex]
+                        if (msg.removed[groupIndex].findIndex(x=>x == letter )>= 0){
+                            html += `<span class="removedLetter">${letter}</span>`
+                        }
+                        else{
+                            html += letter
+                        }
+                        if (letterIndex < msg.letters[groupIndex].length-1)
+                            html += ','
+
+                        
+                    }
+                    document.querySelector(`#guessLetter${Number(groupIndex)+1}`).innerHTML=html
                 }
+
             })
             
         </script>
@@ -37,11 +52,7 @@
             
             <div id="game-container">
                 <h2>Your turn</h2>
-                <input class="word-letter" maxlength="1" value="?">
-                <input class="word-letter" maxlength="1" value="?">
-                <input class="word-letter" maxlength="1" value="?">
-                <input class="word-letter" maxlength="1" value="?">
-                <input class="word-letter" maxlength="1" value="?">
+                
                 <br>
                 <span class="guessLetter" id="guessLetter1"></span>
                 <span class="guessLetter" id="guessLetter2"></span>
@@ -55,7 +66,9 @@
                 <br><button id ="removeFrom4">Remove Wrong letter 4</button>
                 <br><button id ="removeFrom5">Remove Wrong letter 5</button>
                 <br><button id ="removeFromAll">Remove Wrong letter from all</button>
-                <br><button id ="guessBtn">GUESS THE WORD</button>
+                <br>
+                <input class="word-input" maxlength="5" placeholder="?">
+                <button id ="guessBtn">GUESS THE WORD</button>
                 <br><button id ="newWordBtn">Get New Word</button>
             </div>
             <div class="game-overview">
