@@ -6,7 +6,7 @@
         <title>Secret Word Game</title>
         <script src="/socket.io/socket.io.js"></script>
         <script type="module">
-            import {getNewWord,removeSingle, removeFromAll} from  "./scripts/game.js"
+            import {getNewWord,removeSingle, removeFromAll, guessWord} from  "./scripts/game.js"
 
             const socket = io();
             socket.on('hello', function(msg) {
@@ -22,7 +22,14 @@
 
             document.querySelector("#removeFromAll").addEventListener("click", ()=>{removeFromAll(socket)})
 
+            document.querySelector("#guessBtn").addEventListener("click", ()=>{
+                
+                const word = document.querySelector(".word-input").value
+                guessWord(socket,word)
+            })
+
             socket.on('GameState', function(msg) {
+                console.log(`Win State : ${msg.winState}`)
                 for (let groupIndex in msg.letters){
                     let html = ""
                     for (let letterIndex in msg.letters[groupIndex]){

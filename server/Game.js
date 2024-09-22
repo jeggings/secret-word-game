@@ -111,12 +111,15 @@ module.exports = class SecretWordGame {
     getGameState(){
         return {
             'letters':this.guessLetters,
-            'removed':this.removedLetters
+            'removed':this.removedLetters,
+            'winState':this.winState
         }
     }
 
     guess(guessWord){
-        return guessWord == this.currentWord
+        this.winState = guessWord.toUpperCase() == this.currentWord.toUpperCase()
+        this.broadCastGameState()
+        return this.winState
     }
 
     addSocket(socket){

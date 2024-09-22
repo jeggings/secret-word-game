@@ -10,3 +10,7 @@ export const removeSingle = async (socket,charIndex)=>{
 export const removeFromAll = async (socket,charIndex)=>{
     socket.emit('removeFromAll',{index:charIndex})
 }
+
+export const guessWord = async (socket,word)=>{
+    socket.emit('guessWord',word)
+}

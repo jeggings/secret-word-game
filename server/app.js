@@ -50,6 +50,12 @@ io.on('connection', (socket) => {
         }
     )
 
+    socket.on('guessWord',  (data) => {
+        console.log(`Word Guessed ${data}`)
+        const isWord = app.locals.wordGame.guess(data)
+        }
+    )
+
     socket.on('disconnect', () => {
         console.log('user disconnected')
         app.locals.wordGame.removeSocket(socket)
